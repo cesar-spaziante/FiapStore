@@ -10,9 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IUsuarioRepository, UsuarioRepository>();
-//builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioRepository, EFUsuarioRepository>();
+//builder.Services.AddSingleton<IUsuarioRepository, UsuarioRepository>();
 //builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+
+builder.Services.AddDbContext<ApplicationDbContext>(ServiceLifetime.Scoped);
 
 
 
