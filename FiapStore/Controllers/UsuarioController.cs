@@ -21,6 +21,17 @@ namespace FiapStore.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Obtem todos os usuários com Pedido
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <remarks>Exemplo de Requisição:
+        /// Enviar ID para requisição
+        /// </remarks>
+        /// <response code ="200">RetornaSucesso</response>
+        /// <response code ="401">Não Autenticado</response>
+        /// <response code ="403">Não Autorizado</response>
         [Authorize]
         [HttpGet("obterTodosComPedidos/{id}")]
         public IActionResult ObterTodosComPedidos(int id) {
@@ -70,6 +81,7 @@ namespace FiapStore.Controllers
             return Ok(mensagem);
         }
 
+      
         [HttpPut]
         public IActionResult AlterarUsuario(AlterarUsuarioDTO usuarioDTO)
         {

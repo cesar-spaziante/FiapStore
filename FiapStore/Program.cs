@@ -5,6 +5,7 @@ using FiapStore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,42 +15,53 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen( c => {
-    c.SwaggerDoc("v1", new OpenApiInfo
+
+builder.Services.AddSwaggerGen(c =>
     {
-        Title = "FiapStore",
-        Version = "v1"
-    });
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-
-    {
-        Description = "Teste",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type =SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT"
-
-
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+        c.SwaggerDoc("v1", new OpenApiInfo
         {
-            new OpenApiSecurityScheme
+            Title = "FiapStore",
+            Version = "v1"
+
+        });
+
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        c.IncludeXmlComments(xmlPath);
+
+    
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+
             {
-            Reference = new OpenApiReference
+                Description = "Teste",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
+                BearerFormat = "JWT"
+
+
+            });
+
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
+                Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
 
-            },
-            Array.Empty<string>()
-        }
+                },
+                Array.Empty<string>()
+            }
 
-    });
+        });
 });
+ 
+
 
 builder.Services.AddScoped<IUsuarioRepository, EFUsuarioRepository>();
 //builder.Services.AddSingleton<IUsuarioRepository, UsuarioRepository>();
@@ -98,7 +110,16 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
+
+app.UseReDoc(c =>
+{
+    c.DocumentTitle = "REDOC FiapStore API";
+    c.RoutePrefix = "";
+}
+
+);
 
 app.UseHttpsRedirection();
 
