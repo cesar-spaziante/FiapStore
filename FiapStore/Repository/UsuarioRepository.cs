@@ -75,8 +75,12 @@ namespace FiapStore.Repository
                 }, parametros, splitOn: "Id");
             return resultado.Values.FirstOrDefault();
             
-        }   
-    
+        }
+
+        public Usuario ObterPorNomeUsuarioESenha(string nomeUsuario, string senha)
+        {
+            throw new NotImplementedException();
+        }
     }
     
 }

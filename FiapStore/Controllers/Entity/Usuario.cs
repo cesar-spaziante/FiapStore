@@ -1,4 +1,5 @@
 ﻿using FiapStore.DTOs;
+using FiapStore.Enums;
 
 namespace FiapStore.Controllers.Entity
 {
@@ -6,6 +7,9 @@ namespace FiapStore.Controllers.Entity
     {
        
         public string? Nome { get; set; }
+        public string NomeUsuario { get; set; }
+        public string Senha { get; set; }
+        public TipoPermissao Permissao { get; set; }
         public ICollection<Pedido> Pedidos { get; set; }
 
 
@@ -16,6 +20,9 @@ namespace FiapStore.Controllers.Entity
         public Usuario(CadastrarUsuarioDTO cadastrarUsuarioDTO)
         {
             Nome = cadastrarUsuarioDTO.Nome;
+            NomeUsuario = cadastrarUsuarioDTO.NomeUsuario;
+            Senha = cadastrarUsuarioDTO.Senha;
+            Permissao = cadastrarUsuarioDTO.Permissao;
         }
 
         public Usuario(AlterarUsuarioDTO alterarUsuarioDTO)
